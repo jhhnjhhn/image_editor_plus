@@ -7,6 +7,7 @@ import 'package:colorfilter_generator/presets.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -563,7 +564,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                 resetTransformation();
                 setState(() {});
 
-                var loadingScreen = showLoadingScreen(context);
+                BotToast.showLoading();
 
                 if (widget.outputFormat == o.OutputFormat.json) {
                   var json = layers.map((e) => e.toJson()).toList();
@@ -578,14 +579,14 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                   //   });
                   // }
 
-                  loadingScreen.hide();
+                  BotToast.closeAllLoading();
 
                   if (mounted) Navigator.pop(context, json);
                 } else {
                   var editedImageBytes =
                       await getMergedImage(widget.outputFormat);
 
-                  loadingScreen.hide();
+                  BotToast.closeAllLoading();
 
                   if (mounted) Navigator.pop(context, editedImageBytes);
                 }
